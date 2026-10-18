@@ -1,0 +1,18 @@
+node_modules/
+.next/
+__pycache__/
+*.pyc
+.venv/
+backend/data/*.db
+models/xlmr_fake_news_model/model.safetensors
+models/arabert_fake_news_model/model.safetensors
+.env
+
+# Python
+
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+

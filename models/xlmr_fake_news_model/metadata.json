@@ -1,0 +1,220 @@
+{
+  "model_name": "xlm-roberta-base",
+  "task": "Arabic fake news detection",
+  "task_type": "binary_text_classification",
+  "framework": {
+    "transformers": "Hugging Face Transformers",
+    "deep_learning": "PyTorch",
+    "evaluation": "scikit-learn"
+  },
+  "max_len": 256,
+  "tokenization": {
+    "padding": "max_length",
+    "truncation": true,
+    "text_column": "text",
+    "tokenizer_source": "xlm-roberta-base"
+  },
+  "num_labels": 2,
+  "label2id": {
+    "real": 0,
+    "fake": 1
+  },
+  "id2label": {
+    "0": "real",
+    "1": "fake"
+  },
+  "dataset": {
+    "fake_dataset_file": "fake_news_dataset_10k.json",
+    "real_dataset_file": "Real_news_dataset_10k.json",
+    "fake_articles_loaded": 10000,
+    "real_articles_loaded": 10000,
+    "total_articles_after_cleaning": 20000,
+    "empty_or_null_articles_dropped": 0,
+    "class_distribution": {
+      "real": 10000,
+      "fake": 10000
+    },
+    "split": {
+      "strategy": "stratified train/validation/test split",
+      "train_ratio": 0.8,
+      "validation_ratio": 0.1,
+      "test_ratio": 0.1,
+      "train_samples": 15999,
+      "validation_samples": 2001,
+      "test_samples": 2000
+    }
+  },
+  "reproducibility": {
+    "seed": 42
+  },
+  "training": {
+    "num_train_epochs": 4,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "per_device_train_batch_size": 16,
+    "per_device_eval_batch_size": 32,
+    "gradient_accumulation_steps": 2,
+    "effective_train_batch_size": 32,
+    "warmup_ratio": 0.06,
+    "eval_strategy": "epoch",
+    "save_strategy": "epoch",
+    "save_total_limit": 2,
+    "load_best_model_at_end": true,
+    "metric_for_best_model": "f1",
+    "greater_is_better": true,
+    "logging_strategy": "steps",
+    "logging_steps": 50,
+    "fp16": true,
+    "report_to": "none",
+    "early_stopping": {
+      "callback": "EarlyStoppingCallback",
+      "early_stopping_patience": 2
+    },
+    "output_dir": "./xlmr-fake-news-checkpoints"
+  },
+  "decision": {
+    "positive_class": "fake",
+    "best_threshold": 0.5,
+    "threshold_search": {
+      "start": 0.1,
+      "stop_exclusive": 0.9,
+      "step": 0.05,
+      "optimization_metric": "f1",
+      "best_f1": 0.8627,
+      "evaluation_split": "test"
+    },
+    "note": "The notebook searches thresholds on the test set. For an unbiased final estimate, select the threshold on validation data and evaluate it once on the held-out test set."
+  },
+  "test_metrics": {
+    "accuracy": 0.853,
+    "precision": 0.8091,
+    "recall": 0.924,
+    "f1": 0.8627,
+    "roc_auc": 0.9417,
+    "support": {
+      "real": 1000,
+      "fake": 1000,
+      "total": 2000
+    },
+    "classification_report": {
+      "real": {
+        "precision": 0.91,
+        "recall": 0.78,
+        "f1_score": 0.84,
+        "support": 1000
+      },
+      "fake": {
+        "precision": 0.81,
+        "recall": 0.92,
+        "f1_score": 0.86,
+        "support": 1000
+      },
+      "macro_avg": {
+        "precision": 0.86,
+        "recall": 0.85,
+        "f1_score": 0.85,
+        "support": 2000
+      },
+      "weighted_avg": {
+        "precision": 0.86,
+        "recall": 0.85,
+        "f1_score": 0.85,
+        "support": 2000
+      }
+    }
+  },
+  "confusion_matrix": {
+    "labels_order": [
+      "real",
+      "fake"
+    ],
+    "true_negative": 782,
+    "false_positive": 218,
+    "false_negative": 76,
+    "true_positive": 924,
+    "matrix": [
+      [
+        782,
+        218
+      ],
+      [
+        76,
+        924
+      ]
+    ]
+  },
+  "model_artifacts": {
+    "save_dir": "./xlmr-fake-news-final",
+    "files": [
+      "training_args.bin",
+      "tokenizer.json",
+      "config.json",
+      "label_mapping.json",
+      "model.safetensors",
+      "tokenizer_config.json"
+    ]
+  },
+  "runtime": {
+    "device_used_in_notebook": "cuda"
+  },
+  "metadata_source": "fake_news_arabic_finetuning_xlmr.ipynb",
+  "notes": [
+    "Precision, recall and F1 in test_metrics are for the positive class 'fake', using the notebook's binary average and pos_label=1.",
+    "The notebook's threshold search evaluates candidate thresholds on the test set; best_threshold is therefore the observed test-set optimum, not an independently validated deployment threshold.",
+    "The notebook's classification_report values are rounded to two decimal places."
+  ],
+  "evaluation_metrics": {
+    "model_name": "xlm-roberta-base",
+    "max_len": 256,
+    "split": "80/10/10 stratifié",
+    "test": {
+      "n_samples": 2000,
+      "accuracy": 0.853,
+      "precision": 0.8091,
+      "recall": 0.924,
+      "f1": 0.8627,
+      "roc_auc": 0.9417,
+      "confusion_matrix": {
+        "tn": 782,
+        "fp": 218,
+        "fn": 76,
+        "tp": 924
+      },
+      "per_class": {
+        "real": {
+          "precision": 0.91,
+          "recall": 0.78,
+          "f1": 0.84,
+          "support": 1000
+        },
+        "fake": {
+          "precision": 0.81,
+          "recall": 0.92,
+          "f1": 0.86,
+          "support": 1000
+        }
+      }
+    },
+    "validation": {
+      "n_samples": 2001,
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.4335,
+          "accuracy": 0.8141,
+          "precision": 0.8593,
+          "recall": 0.751,
+          "f1": 0.8015
+        },
+        {
+          "epoch": 2,
+          "loss": 0.4854,
+          "accuracy": 0.8226,
+          "precision": 0.8587,
+          "recall": 0.772,
+          "f1": 0.8131
+        }
+      ]
+    }
+  }
+}

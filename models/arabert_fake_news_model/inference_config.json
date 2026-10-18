@@ -1,0 +1,5 @@
+{
+  "arabert_preprocessor_model": "aubmindlab/bert-base-arabertv02",
+  "max_len": 256,
+  "decision_threshold": 0.45000000000000007
+}

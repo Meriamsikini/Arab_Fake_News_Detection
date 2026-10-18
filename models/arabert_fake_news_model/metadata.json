@@ -1,0 +1,22 @@
+{
+    "model_name": "aubmindlab/bert-base-arabertv02",
+    "test_metrics": {
+        "accuracy": 0.88,
+        "precision": 0.876984126984127,
+        "recall": 0.884,
+        "f1_at_0.50": 0.8804780876494024,
+        "auc": 0.960236
+    },
+    "threshold_optimization": {
+        "best_threshold": 0.45000000000000007,
+        "precision_at_best_threshold": 0.872093023255814,
+        "recall_at_best_threshold": 0.9,
+        "f1_at_best_threshold": 0.8858267716535433
+    },
+    "confusion_matrix": {
+        "true_negatives": 876,
+        "false_positives": 124,
+        "false_negatives": 116,
+        "true_positives": 884
+    }
+}
